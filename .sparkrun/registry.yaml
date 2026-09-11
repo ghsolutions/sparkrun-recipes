@@ -1,0 +1,4 @@
+registries:
+  - name: gd-AI-Labs
+    description: Rezepte Sparkrun fuer  DGX Spark von gh-solutions
+    recipes: recipes
