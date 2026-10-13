@@ -1,6 +1,6 @@
 recipe_version: '2'
-name: Qwen3.8-Flash-Next-FP8
-model: Qwen/Qwen3.8-Flash-Next-FP8
+name: qwen3.8-27b-uncensored-fp8-vllm
+model: orcarouter/Qwen3.8-27B-Uncensored-FP8
 runtime: vllm
 container: vllm/vllm-openai@sha256:3b0e188ffceb3d07e09c3cb5215433a0020eacf02d7f882ed3a8bfd15454477e
 command: |

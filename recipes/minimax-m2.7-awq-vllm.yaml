@@ -1,18 +1,20 @@
-# Recipe: MiniMax-M2.7-AWQ
-# MiniMax M2.7 model with AWQ quantization
+# Recipe: minimax-m2.7-awq-vllm
+# MiniMax M2.7 (AWQ 4-bit) on vLLM, Ray-Distributed, 2-node cluster
 
 recipe_version: '2'
-name: MiniMax-M2.7-AWQ
-description: vLLM serving MiniMax-M2.7-AWQ on a multi-node cluster
+name: minimax-m2.7-awq-vllm
+description: vLLM serving MiniMax-M2.7-AWQ on a two-node DGX Spark cluster
 
 # HuggingFace model to download (optional, for --download-model)
 model: cyankiwi/MiniMax-M2.7-AWQ-4bit
 
+runtime: vllm
+
 # Container image to use
 container: vllm-node
 
-# Can only be run in a cluster
-cluster_only: true
+# Cluster only: 2+ Nodes (TP2)
+min_nodes: 2
 
 # No mods required
 mods: []
@@ -30,7 +32,7 @@ env: {}
 
 # The vLLM serve command template
 command: |
-  vllm serve cyankiwi/MiniMax-M2.7-AWQ-4bit \
+  vllm serve {model} \
       --trust-remote-code \
       --port {port} \
       --host {host} \

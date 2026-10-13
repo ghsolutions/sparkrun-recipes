@@ -1,4 +1,7 @@
 registries:
-  - name: gdAI-Labs
-    description: Rezepte Sparkrun fuer  DGX Spark von gh-solutions
+  - name: gdai-labs
+    description: >-
+      gdAI-Labs SparkRun-Rezepte fuer NVIDIA DGX Spark (GB10):
+      produktionsreife vLLM-Lanes fuer Multi-Node-Cluster (TP2),
+      revisions-pinned Container-Images und Modell-Checkpoints.
     recipes: recipes
