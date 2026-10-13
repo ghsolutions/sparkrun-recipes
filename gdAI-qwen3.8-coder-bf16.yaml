@@ -1,0 +1,81 @@
+recipe_version: '2'
+name: Qwen3.8-Flash-Next-FP8
+model: Qwen/Qwen3.8-Flash-Next-FP8
+runtime: vllm
+container: vllm/vllm-openai@sha256:3b0e188ffceb3d07e09c3cb5215433a0020eacf02d7f882ed3a8bfd15454477e
+command: |
+  vllm serve {model} \
+    --revision {revision} \
+    --served-model-name {served_model_name} \
+    --host {host} \
+    --port {port} \
+    --tensor-parallel-size {tensor_parallel} \
+    --distributed-executor-backend {distributed_executor_backend} \
+    --gpu-memory-utilization {gpu_memory_utilization} \
+    --mm-processor-cache-gb {mm_processor_cache_gb} \
+    --max-model-len {max_model_len} \
+    --max-num-seqs {max_num_seqs} \
+    --max-num-batched-tokens {max_num_batched_tokens} \
+    --long-prefill-token-threshold {long_prefill_token_threshold} \
+    --enable-expert-parallel \
+    --enable-prefix-caching \
+    --enable-chunked-prefill \
+    --async-scheduling \
+    --enforce-eager \
+    --no-enable-flashinfer-autotune \
+    --speculative-config '{speculative_config}' \
+    --enable-auto-tool-choice \
+    --tool-call-parser qwen3_coder \
+    --reasoning-parser qwen3 \
+    --trust-remote-code
+defaults:
+  port: 8000
+  host: 0.0.0.0
+  tensor_parallel: 2
+  gpu_memory_utilization: 0.85
+  max_model_len: 110000
+  max_num_batched_tokens: 8192
+  max_num_seqs: 10
+  served_model_name: qwen3.8-flash-next-fp8-vllm-mtp3-eager
+  revision: bcd9f01ddc9cff2316eb84281bebcd5b058bddce
+  mm_processor_cache_gb: 0
+  long_prefill_token_threshold: 1600
+  distributed_executor_backend: mp
+  speculative_config: '{"method":"mtp","num_speculative_tokens":3}'
+env:
+  PYTHONUNBUFFERED: '1'
+  HF_HUB_OFFLINE: '1'
+  TRANSFORMERS_OFFLINE: '1'
+  NCCL_SOCKET_IFNAME: enp1s0f0np0
+  GLOO_SOCKET_IFNAME: enp1s0f0np0
+  NCCL_CUMEM_ENABLE: '0'
+  PYTORCH_CUDA_ALLOC_CONF: expandable_segments:True
+  OMP_NUM_THREADS: '2'
+min_nodes: 2
+max_nodes: 2
+metadata:
+  description: Memory-safe Spark Arena candidate for the revision-pinned official Qwen3.8-Flash-Next-FP8 checkpoint on two DGX Spark nodes. It retains all checkpoint weights, the complete GPU-resident 51B n-gram embedding table, and MTP3 while avoiding the upstream ARM64 Inductor cold-start peak. The multimodal processor cache is disabled to return host unified memory to the KV cache; multimodal inference remains enabled and is simply reprocessed instead of cached.
+  model_dtype: fp8
+  quantization: fp8
+  ngram_parameters: 51200245760
+  optimization: official-weights-vllm-mtp3-eager-tp2
+  vllm_version: 0.1.dev20073+g8e685d198
+  num_layers: 48
+  num_kv_heads: 2
+  head_dim: 256
+  quant_bits: 8
+  model_type: qwen4_exp
+distribution_config:
+  models:
+    enabled: true
+    entries:
+      - name: Qwen/Qwen3.8-Flash-Next-FP8
+        target:
+          - -1
+        revision: bcd9f01ddc9cff2316eb84281bebcd5b058bddce
+  containers:
+    enabled: true
+    entries:
+      - name: '{container}'
+        target: []
+  externally_provided: true
