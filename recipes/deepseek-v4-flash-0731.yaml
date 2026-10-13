@@ -1,0 +1,50 @@
+recipe_version: "2"
+name: DeepSeek-V4-Flash-0731
+description: DeepSeek V4 Flash 0731 on dual DGX Spark, TP=2, PR 41834 SM12x
+model: deepseek-ai/DeepSeek-V4-Flash-0731
+container: vllm-node-dsv4
+cluster_only: true
+
+build_args:
+  - "--rebuild-vllm"
+  - "--vllm-repo"
+  - "https://github.com/jasl/vllm.git"
+  - "--vllm-ref"
+  - "sm120-pr-41834-stable-preview-20260804"
+
+defaults:
+  port: 8000
+  host: 0.0.0.0
+  tensor_parallel: 2
+  gpu_memory_utilization: 0.85
+  max_model_len: 500000
+  max_num_batched_tokens: 8192
+  max_num_seqs: 64
+  block_size: 256
+  served_model_name: deepseek-v4-flash-0731
+
+env:
+  VLLM_MARLIN_USE_ATOMIC_ADD: "1"
+  PYTORCH_CUDA_ALLOC_CONF: "expandable_segments:True"
+
+command: |
+  uv pip install --cache-dir /tmp/uv-cache --target /tmp/site-packages --no-deps nvidia-cutlass-dsl-libs-cu13==4.5.2 && \
+  vllm serve {model} \
+      --host {host} \
+      --port {port} \
+      --block-size {block_size} \
+      --enable-auto-tool-choice \
+      --gpu-memory-utilization {gpu_memory_utilization} \
+      --kv-cache-dtype fp8_ds_mla \
+      --load-format instanttensor \
+      --max-model-len {max_model_len} \
+      --max-num-batched-tokens {max_num_batched_tokens} \
+      --max-num-seqs {max_num_seqs} \
+      --override-generation-config '{"top_p":0.95, "temperature":0.6}' \
+      --reasoning-parser deepseek_v4 \
+      --served-model-name {served_model_name} \
+      --speculative-config '{"method":"dspark","num_speculative_tokens":5,"draft_sample_method":"probabilistic"}' \
+      --tensor-parallel-size {tensor_parallel} \
+      --tool-call-parser deepseek_v4 \
+      --trust-remote-code \
+      --tokenizer-mode deepseek_v4
