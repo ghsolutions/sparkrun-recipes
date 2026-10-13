@@ -7,8 +7,6 @@ revision- bzw. digest-pinned Containern und Modell-Checkpoints.
 ## Registry hinzufügen
 
 **Wichtig:** `sparkrun registry add` akzeptiert nur die Schemes `https://`,
-`ssh://`, `git@…:` und `file://`. Die plain-HTTP-URL des Gitea
-(`http://192.168.233.30:30080/...`) wird vom CLI abgelehnt.
 
 ```bash
 python3 -m pip install --upgrade sparkrun
