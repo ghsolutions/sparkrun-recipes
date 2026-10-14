@@ -36,7 +36,7 @@ defaults:
   max_model_len: 110000
   max_num_batched_tokens: 8192
   max_num_seqs: 10
-  served_model_name: qwen3.8-flash-next-fp8-vllm-mtp3-eager
+  served_model_name: qwen3.8-27b-uncensored-fp8-vllm
   revision: bcd9f01ddc9cff2316eb84281bebcd5b058bddce
   mm_processor_cache_gb: 0
   long_prefill_token_threshold: 1600
@@ -69,7 +69,7 @@ distribution_config:
   models:
     enabled: true
     entries:
-      - name: Qwen/Qwen3.8-Flash-Next-FP8
+      - name: orcarouter/Qwen3.8-27B-Uncensored-FP8
         target:
           - -1
         revision: bcd9f01ddc9cff2316eb84281bebcd5b058bddce

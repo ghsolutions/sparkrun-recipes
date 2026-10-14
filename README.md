@@ -32,6 +32,7 @@ sparkrun registry update
 | `@gdai-labs/qwen3.8-flash-next-fp8-vllm` | `Qwen/Qwen3.8-Flash-Next-FP8` (rev. `bcd9f01`) | vLLM (digest-pinned) | 2 × TP2 | Memory-safe Flash-Next-Lane: MTP3, eager, PP+Caching, Multimodal ohne Processor-Cache |
 | `@gdai-labs/qwen3.8-27b-uncensored-fp8-vllm` | `orcarouter/Qwen3.8-27B-Uncensored-FP8` | vLLM (digest-pinned) | 2 × TP2 | Uncensored-Variante auf gleichem vLLM-Build |
 | `@gdai-labs/minimax-m2.7-awq-vllm` | `cyankiwi/MiniMax-M2.7-AWQ-4bit` | vLLM (Ray) | 2+ | MiniMax M2.7 AWQ 4-bit, Tool-Calling + Reasoning-Parser |
+| `@gdai-labs/deepseek-v4-flash-0731` | `deepseek-ai/DeepSeek-V4-Flash-0731` | vLLM | 2+ | DeepSeek V4 Flash 0731 on dual DGX Spark, TP=2, PR 41834 SM12x |
 
 ## Verwendung
 
@@ -66,15 +67,6 @@ sparkrun stop @gdai-labs/qwen3.8-flash-next-fp8-vllm
    sparkrun run recipes/<name>.yaml --solo --dry-run
    ```
 4. Pushen, dann bei den Clients `sparkrun registry update`
-
-## Hinweise / bekannte Baustellen
-
-- Die Rezepte setzen netzwerkspezifische Env-Variablen (`NCCL_SOCKET_IFNAME=
-  enp1s0f0np0`) und Offline-Betrieb (`HF_HUB_OFFLINE=1`) voraus — Modelle und
-  Container müssen auf den Nodes bereits vorliegen (`externally_provided`).
-- `qwen3.8-27b-uncensored-fp8-vllm`: der `distribution_config`-Eintrag zeigt
-  noch auf `Qwen/Qwen3.8-Flash-Next-FP8` statt auf das Uncensored-Modell
-  (TODO: prüfen/korrigieren).
 
 ## Links
 
