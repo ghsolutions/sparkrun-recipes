@@ -7,12 +7,20 @@ revision- bzw. digest-pinned Containern und Modell-Checkpoints.
 ## Registry hinzufügen
 
 **Wichtig:** `sparkrun registry add` akzeptiert nur die Schemes `https://`,
+`ssh://`, `git@…:` und `file://`. Die plain-HTTP-URL des Gitea
+(`http://192.168.233.30:30080/...`) wird vom CLI abgelehnt.
 
 ```bash
 python3 -m pip install --upgrade sparkrun
 
+# Variante 1: SSH gegen das Gitea (dafür muss ein SSH-Key im Gitea hinterlegt sein)
+sparkrun registry add ssh://git@192.168.233.30/dgx-spark/sparkrun-recipoes.git
+
+# Variante 2: lokale Arbeitskopie auf der Steuer-Maschine
+sparkrun registry add "file:///Volumes/USR/ENTWICKLUNG/KI + AI LLM/sparkrun-recipoes"
+
 # Variante 3: https://, sobald das Gitea hinter einem TLS-Proxy läuft
-sparkrun registry add https://github.com/ghsolutions/sparkrun-recipes.git
+sparkrun registry add https://gitea.internal.lan/dgx-spark/sparkrun-recipoes.git
 ```
 
 Optional mit Trust (Rezept-Hooks `pre_exec`/`post_exec`/`post_commands` laufen
@@ -42,6 +50,8 @@ sparkrun search qwen3                  # Suche über alle Registries
 sparkrun show @gdai-labs/qwen3.8-flash-next-fp8-vllm   # Defaults + VRAM-Schätzung
 sparkrun run @gdai-labs/minimax-m2.7-awq-vllm --dry-run
 sparkrun run @gdai-labs/qwen3.8-flash-next-fp8-vllm -H <head-ip>,<worker-ip>
+sparkrun run @gdai-labs/qwen3.8-27b-uncensored-fp8-vllm -H <head-ip>,<worker-ip>
+sparkrun run @gdai-labs/deepseek-v4-flash-0731 -H <head-ip>,<worker-ip>
 sparkrun stop @gdai-labs/qwen3.8-flash-next-fp8-vllm
 ```
 
@@ -53,7 +63,8 @@ sparkrun stop @gdai-labs/qwen3.8-flash-next-fp8-vllm
 └── recipes/               # YAML-Rezepte (Name-Feld == Dateistem)
     ├── minimax-m2.7-awq-vllm.yaml
     ├── qwen3.8-27b-uncensored-fp8-vllm.yaml
-    └── qwen3.8-flash-next-fp8-vllm.yaml
+    ├── qwen3.8-flash-next-fp8-vllm.yaml
+    └── deepseek-v4-flash-0731.yaml
 ```
 
 ## Neue Rezepte hinzufügen
