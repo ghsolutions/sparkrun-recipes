@@ -6,20 +6,9 @@ revision- bzw. digest-pinned Containern und Modell-Checkpoints.
 
 ## Registry hinzufügen
 
-**Wichtig:** `sparkrun registry add` akzeptiert nur die Schemes `https://`,
-`ssh://`, `git@…:` und `file://`. Die plain-HTTP-URL des Gitea
-(`http://192.168.233.30:30080/...`) wird vom CLI abgelehnt.
-
 ```bash
 python3 -m pip install --upgrade sparkrun
 
-# Variante 1: SSH gegen das Gitea (dafür muss ein SSH-Key im Gitea hinterlegt sein)
-sparkrun registry add ssh://git@192.168.233.30/dgx-spark/sparkrun-recipoes.git
-
-# Variante 2: lokale Arbeitskopie auf der Steuer-Maschine
-sparkrun registry add "file:///Volumes/USR/ENTWICKLUNG/KI + AI LLM/sparkrun-recipoes"
-
-# Variante 3: https://, sobald das Gitea hinter einem TLS-Proxy läuft
 sparkrun registry add https://gitea.internal.lan/dgx-spark/sparkrun-recipoes.git
 ```
 
