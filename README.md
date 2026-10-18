@@ -30,6 +30,7 @@ sparkrun registry update
 | `@gdai-labs/qwen3.8-27b-uncensored-fp8-vllm` | `orcarouter/Qwen3.8-27B-Uncensored-FP8` | vLLM (digest-pinned) | 2 × TP2 | Uncensored-Variante auf gleichem vLLM-Build |
 | `@gdai-labs/minimax-m2.7-awq-vllm` | `cyankiwi/MiniMax-M2.7-AWQ-4bit` | vLLM (Ray) | 2+ | MiniMax M2.7 AWQ 4-bit, Tool-Calling + Reasoning-Parser |
 | `@gdai-labs/deepseek-v4-flash-0731` | `deepseek-ai/DeepSeek-V4-Flash-0731` | vLLM | 2+ | DeepSeek V4 Flash 0731 on dual DGX Spark, TP=2, PR 41834 SM12x |
+| `@gdai-labs/nemotron-3.5-super-fp8.yaml` | `RedHatAI/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-FP8` | vLLM | 2+ | Nvidia Nemotron 3.5 Super VL 120B A12B FP8 on dual DGX Spark, TP=2 |
 
 ## Verwendung
 
