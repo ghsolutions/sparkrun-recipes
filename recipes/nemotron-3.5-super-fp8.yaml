@@ -45,5 +45,6 @@ command: |
       --mamba-cache-mode align \
       --enable-auto-tool-choice \
       --tool-call-parser qwen3_coder \
-      --reasoning-parser nemotron_v3
+      --reasoning-parser nemotron_v3 \
+      --api-key "$(cat ~/.vllm_api_key)"
       
