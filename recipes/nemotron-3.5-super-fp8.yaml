@@ -3,14 +3,16 @@ recipe_version: "1"
 name: NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-FP8
 description: vLLM serving Nemotron 3.5 Super VL FP8 on two DGX Sparks (TP=2) with MTP speculative decoding
 model: RedHatAI/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-FP8
-container: vllm/vllm-openai:v0.31.0
+container: vllm/vllm-openai:v0.32.0
+#container: vllm/vllm-openai:v0.31.0
+#container: registry.redhat.io/rhaiis/vllm-cuda-rhel9:3.3.7-1789582776
 cluster_only: true
 
 defaults:
   port: 8000
   host: 0.0.0.0
   tensor_parallel: 2
-  gpu_memory_utilization: 0.75
+  gpu_memory_utilization: 0.79
   max_model_len: 1048576 #114688
   max_num_seqs: 128
   max_num_batched_tokens: 8192
