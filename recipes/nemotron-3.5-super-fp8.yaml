@@ -15,8 +15,13 @@ defaults:
   gpu_memory_utilization: 0.79
   max_model_len: 1048576 #114688
   max_num_seqs: 128
-  max_num_batched_tokens: 8192
-  num_speculative_tokens: 8
+  max_num_batched_tokens: 16384 #8192
+  num_speculative_tokens: 3 #8
+  block_size: 64
+  prefix_match_unit: 64
+  max_cudagraph_capture_size: 192
+  mamba_ssm_cache_dtype: float16
+  mamba_cache_philox_rounds: 5
 
 command: |
   vllm serve {model} \
@@ -24,10 +29,10 @@ command: |
       --port {port} \
       --tensor-parallel-size {tensor_parallel} \
       --gpu-memory-utilization {gpu_memory_utilization} \
-      --prefix-match-unit 64 \
-      --block-size 64 \
+      --prefix-match-unit {prefix_match_unit} \
+      --block-size {block_size} \
       --limit-mm-per-prompt '{"video":0}' \
-      --compilation_config.max_cudagraph_capture_size 192 \
+      --compilation_config.max_cudagraph_capture_size {max_cudagraph_capture_size} \
       --enable-expert-parallel \
       --max-num-seqs {max_num_seqs} \
       --trust-remote-code \
@@ -38,9 +43,9 @@ command: |
       --speculative_config.method mtp \
       --speculative_config.num_speculative_tokens {num_speculative_tokens} \
       --mamba-backend flashinfer \
-      --mamba-ssm-cache-dtype float16 \
+      --mamba-ssm-cache-dtype {mamba_ssm_cache_dtype} \
       --enable-mamba-cache-stochastic-rounding \
-      --mamba-cache-philox-rounds 5 \
+      --mamba-cache-philox-rounds {mamba_cache_philox_rounds} \
       --chat-template-content-format string \
       --mamba-cache-mode align \
       --enable-auto-tool-choice \
