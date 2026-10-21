@@ -1,8 +1,5 @@
-# Recipe: minimax-m2.7-awq-vllm
 # MiniMax M2.7 (AWQ 4-bit) on vLLM, Ray-Distributed, 2-node cluster
-
 recipe_version: '2'
-name: minimax-m2.7-awq-vllm
 description: vLLM serving MiniMax-M2.7-AWQ on a two-node DGX Spark cluster
 
 # HuggingFace model to download (optional, for --download-model)
