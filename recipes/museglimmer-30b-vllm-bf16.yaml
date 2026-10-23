@@ -5,7 +5,7 @@ description: >
   DFlash-Speculative-Decoding (Drafter: Muse-Glimmer-30B-assistant). Ausgelegt für Hermes Agent.
 
 model: meta-models/Muse-Glimmer-30B
-runtime: vllm
+runtime: vllm-ray
 container: vllm-node
 min_nodes: 2
 
