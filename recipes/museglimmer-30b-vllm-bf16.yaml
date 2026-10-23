@@ -1,0 +1,43 @@
+recipe_version: "2"
+name: muse-glimmer-30b-dflash
+description: >
+  meta-models/Muse-Glimmer-30B (BF16, multimodal) via vLLM, TP=2 auf zwei Nodes,
+  DFlash-Speculative-Decoding (Drafter: Muse-Glimmer-30B-assistant). Ausgelegt für Hermes Agent.
+
+model: meta-models/Muse-Glimmer-30B
+runtime: vllm
+container: vllm-node
+min_nodes: 2
+
+defaults:
+  host: 0.0.0.0
+  port: 8000
+  tensor_parallel: 2
+  gpu_memory_utilization: 0.80
+  max_model_len: 131072
+  max_num_seqs: 4
+  served_model_name: muse-glimmer-30b
+
+env:
+  VLLM_LOGGING_LEVEL: INFO
+  # Optional, wenn Modelle lokal auf beiden Nodes liegen:
+  # HF_HUB_OFFLINE: "1"
+  # TRANSFORMERS_OFFLINE: "1"
+
+command: |
+  vllm serve {model} \
+    --served-model-name {served_model_name} \
+    --host {host} --port {port} \
+    --tensor-parallel-size {tensor_parallel} \
+    --distributed-executor-backend ray \
+    --dtype bfloat16 \
+    --max-model-len {max_model_len} \
+    --max-num-seqs {max_num_seqs} \
+    --gpu-memory-utilization {gpu_memory_utilization} \
+    --trust-remote-code \
+    --enable-auto-tool-choice \
+    --limit-mm-per-prompt '{"image": 4}' \
+    --speculative-config '{"method": "dflash", "model": "meta-models/Muse-Glimmer-30B-assistant", "num_speculative_tokens": 15}'
+    # Parser: für Glimmer nicht verifiziert, erst nach Test aktivieren:
+    # --tool-call-parser <PARSER> \
+    # --reasoning-parser <PARSER> \
