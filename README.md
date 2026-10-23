@@ -31,17 +31,19 @@ sparkrun registry update
 | `@gdai-labs/minimax-m2.7-awq-vllm` | `cyankiwi/MiniMax-M2.7-AWQ-4bit` | vLLM (Ray) | 2+ | MiniMax M2.7 AWQ 4-bit, Tool-Calling + Reasoning-Parser |
 | `@gdai-labs/deepseek-v4-flash-0731` | `deepseek-ai/DeepSeek-V4-Flash-0731` | vLLM | 2+ | DeepSeek V4 Flash 0731 on dual DGX Spark, TP=2, PR 41834 SM12x |
 | `@gdai-labs/nemotron-3.5-super-fp8.yaml` | `RedHatAI/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-FP8` | vLLM | 2+ | Nvidia Nemotron 3.5 Super VL 120B A12B FP8 on dual DGX Spark, TP=2 |
+| `@gdai-labs/museglimmer-30b-vllm-bf16.yaml` | `meta-models/Muse-Glimmer-30B` | vLLM | 2+ | Meta Muse 30B BFLOAT16 on dual DGX Spark, TP=2 |
 
 ## Verwendung
 
 ```bash
 sparkrun list                          # alle registrierten Rezepte
 sparkrun search qwen3                  # Suche über alle Registries
+sparkrun list | grep qwen3             # alternative Suche
 sparkrun show @gdai-labs/qwen3.8-flash-next-fp8-vllm   # Defaults + VRAM-Schätzung
-sparkrun run @gdai-labs/minimax-m2.7-awq-vllm --dry-run
+sparkrun run @gdai-labs/qwen3.8-flash-next-fp8-vllm --dry-run
 sparkrun run @gdai-labs/qwen3.8-flash-next-fp8-vllm -H <head-ip>,<worker-ip>
-sparkrun run @gdai-labs/qwen3.8-27b-uncensored-fp8-vllm -H <head-ip>,<worker-ip>
-sparkrun run @gdai-labs/deepseek-v4-flash-0731 -H <head-ip>,<worker-ip>
+sparkrun run @gdai-labs/qwen3.8-flash-next-fp8-vllm -H <head-ip>,<worker-ip>
+sparkrun run @gdai-labs/qwen3.8-flash-next-fp8-vllm -H <head-ip>,<worker-ip>
 sparkrun stop @gdai-labs/qwen3.8-flash-next-fp8-vllm
 ```
 
@@ -54,7 +56,9 @@ sparkrun stop @gdai-labs/qwen3.8-flash-next-fp8-vllm
     ├── minimax-m2.7-awq-vllm.yaml
     ├── qwen3.8-27b-uncensored-fp8-vllm.yaml
     ├── qwen3.8-flash-next-fp8-vllm.yaml
-    └── deepseek-v4-flash-0731.yaml
+    ├── deepseek-v4-flash-0731.yaml
+    ├── nemotron-3.5-super-fp8.yaml
+    └── museglimmer-30b-vllm-bf16.yaml
 ```
 
 ## Neue Rezepte hinzufügen
